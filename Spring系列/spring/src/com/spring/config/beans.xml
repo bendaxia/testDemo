@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+	<!-- dao配置 -->
+	<bean id="aDao" class="com.spring.test.dao.ADaoImpl" />
+	<bean id="bDao" class="com.spring.test.dao.BDaoImpl" />
+
+	<!-- service配置 -->
+	<bean id="AService" class="com.spring.test.service.AServiceImpl">
+		<!-- service注入的dao配置 -->
+		<property name="aDao" bean="aDao" />
+		<property name="bDao" bean="bDao" />
+	</bean>
+	<bean id="BService" class="com.spring.test.service.BServiceImpl">
+		<!-- service注入的dao配置 -->
+		<property name="bDao" bean="bDao" />
+	</bean>
+	<!-- 配置切面切入类 -->
+	<bean id="log" class="com.spring.test.log.LoggerImpl" />
+	<bean id = "time" class="com.spring.test.time.TimeServiceImpl" />
+	<!-- 生成动态代理对象 -->
+	<aop>
+		<!-- 切面类 -->
+		<aspect id="testLog" ref="log">
+			<!-- method为要切入的方法,pointcut-ref为目标类，括号内为方法名 -->
+			<!-- 前置通知 -->
+			<before method="start" pointcut-ref="com.spring.test.service.BServiceImpl(init)" />
+			<!-- 后置通知 -->
+			<after method="end" pointcut-ref="com.spring.test.service.BServiceImpl(init)" />
+		</aspect>
+		<aspect id="testTime" ref="time">
+			<!-- method为要切入的方法,pointcut-ref为目标类，括号内为方法名 -->
+			<!-- 前置通知 -->
+			<before method="start" pointcut-ref="com.spring.test.service.BServiceImpl(init)" />
+			<!-- 后置通知 -->
+			<after method="end" pointcut-ref="com.spring.test.service.BServiceImpl(init)" />
+		</aspect>
+	</aop>
+</beans>
