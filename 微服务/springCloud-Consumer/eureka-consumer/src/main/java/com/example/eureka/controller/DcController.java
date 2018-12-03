@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 @RestController
 public class DcController {
 	@Autowired
-    LoadBalancerClient loadBalancerClient;
+    LoadBalancerClient loadBalancerClient;//通过LoadBalancerClient接口来获取某个服务的具体实例，并根据实例信息来发起服务接口消费请求
 	@Autowired
     RestTemplate restTemplate;
 	
